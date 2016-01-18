@@ -19,26 +19,21 @@ var MyList = React.createClass({
         }.bind(this));
     },
     handleClick: function(event) {
-      console.log(this.state.oneNews);
-      this.setState({"append": "append by click!!!!"});
-      /*
-      if(this.state.oneNews.descendants != 0){
-          var allComment = "";
-          this.state.oneNews.kids.forEach(function(v){
-            $.get("https://hacker-news.firebaseio.com/v0/item/"+v+".json", function(result){
-              allComment += result.text + "<br>";
-            });
-          });
-          this.setState({"comments" : allComment})
-      }*/
-      //window.open(this.state.oneNews.url);
+      window.open(this.state.oneNews.url);
+      this.setState({
+        "readStyle" : {
+          backgroundColor : "grey"
+        }
+      });
     },
     render: function() {
         return (
-            <CardTitle title={this.state.oneNews.title} onClick={this.handleClick}>
-              <CardText expandable={true}>
-                { this.state.oneNews.text} | {this.state.append}
-              </CardText>
+            <CardTitle
+                style={this.state.readStyle}
+                title={this.state.oneNews.title}
+                onClick={this.handleClick}>
+              {/*<CardText expandable={true} dangerouslySetInnerHTML={{__html:  this.state.oneNews.text}}>
+              </CardText>*/}
             </CardTitle>
         );
     }

@@ -18,18 +18,8 @@ import Menu from 'material-ui/lib/menus/menu';
 import injectTapEventPlugin from 'react-tap-event-plugin/src/injectTapEventPlugin';
 injectTapEventPlugin();
 
-
-var dataa = require('./lalala.js');
 var MyCard = require('./card.js');
 var $ = require('jquery');
-
-const style = {
-  marginRight: 32,
-  marginBottom: 32,
-  float: 'left',
-  position: 'relative',
-  zIndex: 0,
-};
 
 var Main = React.createClass({
     childContextTypes: {
@@ -56,8 +46,20 @@ var Main = React.createClass({
     componentDidMount: function() {
         $.get("https://hacker-news.firebaseio.com/v0/newstories.json", function(result) {
             if (this.isMounted()) {
-                this.setState({"ids" : result});
+                var o = result.slice(0, 100);
+                this.setState({"ids" : o});
             }
+        }.bind(this));
+    },
+    onLatest : function(){
+        $.get("https://hacker-news.firebaseio.com/v0/newstories.json", function(result) {
+            var o = result.slice(0, 100);
+            this.setState({"ids" : o});
+        }.bind(this));
+    },
+    onHottest : function(){
+        $.get("https://hacker-news.firebaseio.com/v0/topstories.json", function(result) {
+            this.setState({"ids" : result.slice(0, 100)});
         }.bind(this));
     },
     render: function() {
@@ -67,10 +69,10 @@ var Main = React.createClass({
                     title="HackerNews"
                     showMenuIconButton = {false}
                     iconElementRight={
-                      <IconMenu iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}>
-                        <MenuItem primaryText="Latest" />
-                        <MenuItem primaryText="Hottest" />
-                      </IconMenu>
+                        <IconMenu iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}>
+                            <MenuItem primaryText="Latest" onTouchTap={this.onLatest}/>
+                            <MenuItem primaryText="Hottest" onTouchTap={this.onHottest}/>
+                        </IconMenu>
                     }
                 />
                 <MyCard ids={this.state.ids} />
