@@ -1,4 +1,8 @@
 README
 ===========
 
-React tester
+Install 
+
+npm install
+
+
