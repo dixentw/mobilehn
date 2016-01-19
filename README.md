@@ -15,4 +15,4 @@ $npm run build
 
 ### Demo Site
 
-<http://dixentw.github.io/hn.html/>
+<http://dixentw.github.io/hn.html>
