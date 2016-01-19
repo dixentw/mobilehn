@@ -1,9 +1,28 @@
 import React from 'react';
+import Avatar from 'material-ui/lib/avatar';
 import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
+import CardHeader from 'material-ui/lib/card/card-header';
 import $ from 'jquery'
+
+
+function prettyDate(time){
+	var date = new Date(time*1000),
+		diff = (((new Date()).getTime() - date.getTime()) / 1000),
+		day_diff = Math.floor(diff / 86400);
+
+	if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+		return;
+
+	return day_diff == 0 && (
+			diff < 60 && "just now" ||
+			diff < 120 && "1 minute ago" ||
+			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+			diff < 7200 && "1 hour ago" ||
+			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+		day_diff == 1 && "Yesterday" ||
+		day_diff < 7 && day_diff + " days ago" ||
+		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+}
 
 var MyList = React.createClass({
     getInitialState: function() {
@@ -27,14 +46,18 @@ var MyList = React.createClass({
       });
     },
     render: function() {
+        var news = this.state.oneNews;
+        var subtitleStr = "score: " + news.score + " | ";
+        subtitleStr += "by " + news.by + " " + prettyDate(news.time) + "  | ";
+        subtitleStr += news.descendants + " comments";
         return (
-            <CardTitle
+            <CardHeader
+                avatar={<Avatar style={{color: 'red'}}>A</Avatar>}
                 style={this.state.readStyle}
-                title={this.state.oneNews.title}
+                title={news.title}
+                subtitle={subtitleStr}
                 onClick={this.handleClick}>
-              {/*<CardText expandable={true} dangerouslySetInnerHTML={{__html:  this.state.oneNews.text}}>
-              </CardText>*/}
-            </CardTitle>
+            </CardHeader>
         );
     }
 });

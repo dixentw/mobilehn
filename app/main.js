@@ -11,15 +11,16 @@ import AppBar from 'material-ui/lib/app-bar'
 import IconButton from 'material-ui/lib/icon-button';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 
+import Toggle from 'material-ui/lib/toggle';
+
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import Menu from 'material-ui/lib/menus/menu';
 
 import injectTapEventPlugin from 'react-tap-event-plugin/src/injectTapEventPlugin';
 injectTapEventPlugin();
 
-var MyCard = require('./card.js');
-var $ = require('jquery');
+import MyCard from './card';
+import $ from 'jquery';
 
 var Main = React.createClass({
     childContextTypes: {
@@ -51,16 +52,18 @@ var Main = React.createClass({
             }
         }.bind(this));
     },
-    onLatest : function(){
-        $.get("https://hacker-news.firebaseio.com/v0/newstories.json", function(result) {
-            var o = result.slice(0, 100);
-            this.setState({"ids" : o});
-        }.bind(this));
-    },
-    onHottest : function(){
-        $.get("https://hacker-news.firebaseio.com/v0/topstories.json", function(result) {
-            this.setState({"ids" : result.slice(0, 100)});
-        }.bind(this));
+
+    onToggle : function(e, isToggle){
+        if(isToggle){ //hottest
+            $.get("https://hacker-news.firebaseio.com/v0/topstories.json", function(result) {
+                this.setState({"ids" : result.slice(0, 100)});
+            }.bind(this));
+        }else{
+            $.get("https://hacker-news.firebaseio.com/v0/newstories.json", function(result) {
+                var o = result.slice(0, 100);
+                this.setState({"ids" : o});
+            }.bind(this));
+        }
     },
     render: function() {
         return (
@@ -69,10 +72,13 @@ var Main = React.createClass({
                     title="HackerNews"
                     showMenuIconButton = {false}
                     iconElementRight={
-                        <IconMenu iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}>
-                            <MenuItem primaryText="Latest" onTouchTap={this.onLatest}/>
-                            <MenuItem primaryText="Hottest" onTouchTap={this.onHottest}/>
-                        </IconMenu>
+                        <Toggle
+                            name="toggleName2"
+                            value="toggleValue2"
+                            label="latest/hottest"
+                            style={{trackWhenSwitched : {backgroundColor:"red"}}}
+                            onToggle={this.onToggle}
+                        />
                     }
                 />
                 <MyCard ids={this.state.ids} />
