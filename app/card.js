@@ -1,7 +1,12 @@
 import React from 'react';
+
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+
 import Avatar from 'material-ui/lib/avatar';
 import Card from 'material-ui/lib/card/card';
 import CardHeader from 'material-ui/lib/card/card-header';
+
 import $ from 'jquery'
 
 
@@ -24,7 +29,7 @@ function prettyDate(time){
 		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
 }
 
-var MyList = React.createClass({
+var Article = React.createClass({
     getInitialState: function() {
         return {
             oneNews :  {}
@@ -51,18 +56,17 @@ var MyList = React.createClass({
         subtitleStr += "by " + news.by + " " + prettyDate(news.time) + "  | ";
         subtitleStr += news.descendants + " comments";
         return (
-            <CardHeader
-                avatar={<Avatar style={{color: 'red'}}>A</Avatar>}
+            <ListItem
                 style={this.state.readStyle}
-                title={news.title}
-                subtitle={subtitleStr}
+                primaryText={news.title}
+                secondaryText={subtitleStr}
                 onClick={this.handleClick}>
-            </CardHeader>
+            </ListItem>
         );
     }
 });
 
-var MyCard = React.createClass({
+var MyList = React.createClass({
     getInitialState: function(){
       return ({
           ids : []
@@ -71,15 +75,15 @@ var MyCard = React.createClass({
 
     render: function() {
         return (
-            <Card>
+            <List>
             {
                 this.props.ids.map(function(a){
-                    return (<MyList key={a} id={a} />);
+                    return (<Article key={a} id={a} />);
                 })
             }
-            </Card>
+            </List>
         );
     }
 });
 
-module.exports = MyCard;
+module.exports = MyList;

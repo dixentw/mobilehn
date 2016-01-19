@@ -8,18 +8,14 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import LightRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
 import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar'
-import IconButton from 'material-ui/lib/icon-button';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 
 import Toggle from 'material-ui/lib/toggle';
 
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-
 import injectTapEventPlugin from 'react-tap-event-plugin/src/injectTapEventPlugin';
 injectTapEventPlugin();
 
-import MyCard from './card';
+import MyList from './card';
 import $ from 'jquery';
 
 var Main = React.createClass({
@@ -81,7 +77,7 @@ var Main = React.createClass({
                         />
                     }
                 />
-                <MyCard ids={this.state.ids} />
+            <MyList ids={this.state.ids} />
             </div>
         );
     }
