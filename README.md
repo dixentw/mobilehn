@@ -1,10 +1,18 @@
 README
 ===========
 
-Install 
+### Install
 
-npm install
+$npm install
 
-edit from office
+### Local execute
 
+$npm run dev
 
+### build
+
+$npm run build
+
+### Demo Site
+
+<http://dixentw.github.io/hn.html/>
